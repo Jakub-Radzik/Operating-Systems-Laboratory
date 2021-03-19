@@ -32,14 +32,15 @@ public class Main {
                 proceses.add(new Proces(i, d, m, m, 0));
             }
 
-            System.out.println(
-                    "FCFS: " + FCFS.FCFS(proceses) +
-                            " SJF: "  + SJF.SJF(proceses) +
-                            " RR: "   + RR.RR(quant, proceses) );
+            double fcfs = FCFS.FCFS(proceses);
+            double sjf = SJF.SJF(proceses);
+            double rr = RR.RR(quant, proceses);
 
-            sumFCFS += FCFS.FCFS(proceses);
-            sumSJF += SJF.SJF(proceses);
-            sumRR += RR.RR(quant, proceses);
+            System.out.println("FCFS: " + fcfs +" SJF: "  + sjf +" RR: "   + rr);
+
+            sumFCFS += fcfs;
+            sumSJF += sjf;
+            sumRR += rr;
 
             proceses.clear();
         }

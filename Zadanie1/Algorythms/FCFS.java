@@ -28,8 +28,6 @@ public class FCFS {
         double allWaitingTime = 0;
         int allFinishTime = (procesyCopy.get(0)).getDuration();
 
-//        System.out.println("allWaitingTime = " + allWaitingTime);
-//        System.out.println("allFinishTime = " + allFinishTime);
         for (int i = 1; i < procesyCopy.size(); i++) {
             //RZADKO WYKONYWANE.... JEST TO SPOWODOWANE TYM, ŻE MUSIMY CZEKAĆ NA PROCES JEŚLI DOTYCHCZAS SIĘ ŻADEN NIE POJAWIŁ
             //KONIECZNE W SKRAJNYCH PRZYPADKACH
