@@ -9,7 +9,7 @@ import {FDSCAN} from "./Algorithms/FDSCAN.mjs";
 //VARIABLES
 const startCylinder = 0;
 const endCylinder = 200;
-const currentPosition = 0;
+const currentPosition = 53;
 
 //empty tab for processes to handle
 let tab = [];
@@ -23,7 +23,7 @@ let testValues = [98,183,37,122,14,124,65,67]; // values from files FCFS:640 SST
 
 //processes generator
 for (let i = 0; i < testValues.length; i++) {
-    tab.push(new Process(i+1,1, testValues[i],false,0));
+    tab.push(new Process(1,1, testValues[i],false,0));
 }
 
 console.log(`FCFS: ${FCFS(tab, currentPosition)}`);
@@ -31,6 +31,11 @@ console.log(`SSTF: ${SSTF(tab, currentPosition)}`);
 console.log(`SCAN: ${SCAN(tab, startCylinder, endCylinder, currentPosition)}`);
 console.log(`C-SCAN: ${CSCAN(tab, startCylinder, endCylinder, currentPosition)}`);
 
+
+tab.length = 0;
+for (let i = 0; i < testValues.length; i++) {
+    tab.push(new Process(i,1, testValues[i],false,0));
+}
 let realTimeTestValues = [50,80,130,10,2]
 for (let i = 0; i < realTimeTestValues.length; i++) {
     let x = Math.random() * (endCylinder - startCylinder) + startCylinder;
@@ -42,7 +47,5 @@ tab.push(new Process(22,1,99,true, 52))
 console.log(`--------`)
 console.log(`EDF: ${EDF(tab, currentPosition)}`);
 console.log(`FDSCAN: ${FDSCAN(tab, startCylinder, endCylinder, currentPosition)}`);
-
-
 
 // queue.splice(0,1); //usuwanie pierwszego elementu kolejki
