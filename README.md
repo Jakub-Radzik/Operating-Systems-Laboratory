@@ -1,3 +1,6 @@
+##Wroclaw University of Science and Technology
+###Operating Systems Laboratory
+
 # **1.**
 ###### CPU access algorithms `Java`
 **Implemented algorithms:**
