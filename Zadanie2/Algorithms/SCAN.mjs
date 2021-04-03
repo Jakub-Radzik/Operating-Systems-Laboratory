@@ -10,7 +10,6 @@ export const SCAN = (tab, start, end, currentPosition) => {
                 for (let j = 0; j < newTab.length; j++) {
                     if(newTab[j].cylinder===i){
                         time+=newTab[j].duration;
-                        // console.log(newTab[j].cylinder)
                         newTab.splice(j,1);
 
                         if(newTab.length===0){
@@ -28,7 +27,6 @@ export const SCAN = (tab, start, end, currentPosition) => {
                 for (let j = 0; j < newTab.length; j++) {
                     if(newTab[j].cylinder===i){
                         time+=newTab[j].duration;
-                        // console.log(newTab[j].cylinder)
                         newTab.splice(j,1);
 
                         if(newTab.length===0){

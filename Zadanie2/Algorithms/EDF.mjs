@@ -10,46 +10,22 @@ export const EDF = (tab, currentPosition) => {
 
     do{
         if(newTab.length>0){ // for nonempty tab we append elements to queue
-
-            if(!newTab.some(x=> x.enterMoment!==newTab[0].enterMoment) && newTab.length>1){
-
-                for (let i = 0; i <newTab.length; i++) {
-                    if(newTab[i].isRealTime===true){
-                        queueRealTime.push(newTab[i])
+            for (let i = 0; i < newTab.length; i++) {
+                if(newTab[i].enterMoment<=time){
+                    if(newTab[i].isRealTime){
+                        queueRealTime.push(newTab[i]);
                     }else{
-                        queue.push(newTab[i])
+                        queue.push(newTab[i]);
                     }
+                    newTab.splice(i,1);
+                    i--;
                 }
-                queueRealTime.sort(function (a, b) {return a.deadline-b.deadline}); //sort by deadline ASC
-                newTab.length = 0; //clear tab
-
-
-            }else{
-                for (let i = 0; i < newTab.length; i++) { //insert elem to queue if enterMoment is now
-                    if(newTab[i].enterMoment<=time){
-                        if(newTab[i].isRealTime===true){
-                            queueRealTime.push(newTab[i])
-                        }else{
-                            queue.push(newTab[i]);
-                        }
-                        newTab.splice(i, 1); //delete elem from tab if you push it to queue
-                        i=-1;
-                    }
-                }
-
-                //loop is bugged and leaves last elem and ignore it so we can do that just in case
-                if(newTab.length===1 && newTab[0].enterMoment<=time){
-                    if(newTab[0].isRealTime){
-                        queueRealTime.push(newTab[0]);
-                    }else{
-                        queue.push(newTab[0]);
-                    }
-                    newTab.splice(0, 1); //delete elem from tab if you push it to queue
-                }
-                //sort queue for sure - useful in situation of appending more than 1 elem
-                queue.sort(function (a, b) {return a.enterMoment-b.enterMoment}); //sort by enterMoment ASC
-                queueRealTime.sort(function (a, b) {return a.deadline-b.deadline}); //sort by deadline ASC
             }
+
+            //sort queue for sure - useful in situation of appending more than 1 elem
+            queue.sort(function (a, b) {return a.enterMoment-b.enterMoment}); //sort by enterMoment ASC
+            queueRealTime.sort(function (a, b) {return a.deadline-b.deadline}); //sort by deadline ASC
+
         }
 
         // console.log(`TIME: ${time}`)
