@@ -16,6 +16,12 @@
 `C-SCAN`
 `EDF`
 `FD-SCAN`
-# **ZADANIE 3**
+# **3.**
+###### Testing page replacement algorithms `PHP`
+**Implemented algorithms:**
+`FIFO`
+`OPT`
+`LRU`
+`APX-LRU`
 # **ZADANIE 4**
 # **ZADANIE 5**
