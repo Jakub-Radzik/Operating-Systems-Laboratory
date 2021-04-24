@@ -20,8 +20,9 @@
 ###### Testing page replacement algorithms `PHP`
 **Implemented algorithms:**
 `FIFO`
+`RANDOM`
 `OPT` -- not yet
-`LRU` -- not yet
+`LRU`
 `APX-LRU` -- not yet
 # **ZADANIE 4**
 # **ZADANIE 5**
