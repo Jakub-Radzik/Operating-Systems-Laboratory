@@ -1,5 +1,5 @@
 <?php
-
+require_once(__DIR__.'/Page.php');
 
 class Algorithms
 {
@@ -15,7 +15,8 @@ class Algorithms
         $this->PageReferences = $PageReferences;
     }
 
-    function FIFO(){
+    function FIFO(): int
+    {
         $PF = 0; //pages failures
         $Pages1 = []; //copy
 
@@ -36,8 +37,6 @@ class Algorithms
                     if ($page->nr == $n_page->nr)
                     {
                         $if_breaker = 1;
-                    }
-                    if($if_breaker==1){
                         break;
                     }
                 }
@@ -62,19 +61,121 @@ class Algorithms
         return  $PF;
     }
 
-    function RANDOM(){
+    function RANDOM(): int
+    {
+        $PF = 0;
+        $Pages2 = [];
+        foreach($this->PageReferences as $page)
+        {
+            array_push($Pages2, new Page($page->nr, $page->parityBit, $page->ref));
+        }
+
+        $n = 0;
+        for($i = 0; $i < count($Pages2); $i++) {
+            $n = $Pages2[$i];
+            $if_breaker = 0;
+
+            if (count($this->Frame) < $this->FRAME_SIZE) {
+                foreach($this->Frame as $p)
+                {
+                    if($p->nr == $n->nr)
+                    {
+                        $if_breaker = 1;
+                        break;
+                    }
+                }
+            if($if_breaker==0){
+                $PF++;
+                array_push($this->Frame, $n);
+            }
+
+            }
+            else
+            {
+                foreach($this->Frame as $p)
+                {
+                    if($p->nr == $n->nr)
+                    {
+                        $if_breaker = 1;
+                        break;
+                    }
+                }
+                if($if_breaker==0){
+                    $r = rand(0,$this->FRAME_SIZE-1);
+                    $this->Frame[$r] = $n;
+                    $PF++;
+                }
+            }
+        }
+
+        $this->Frame = array();
+        return  $PF;
+    }
+
+    function LRU(): int
+    {
+        $PF = 0;
+        $Pages3 = [];
+
+        foreach($this->PageReferences as $page)
+        {
+            array_push($Pages3, new Page($page->nr, $page->parityBit, $page->ref));
+        }
+
+        for($i = 0; $i < count($Pages3); $i++) {
+                $n = $Pages3[$i];
+                $if_breaker = 0;
+
+                if (count($this->Frame) < $this->FRAME_SIZE)
+                {
+                    foreach($this->Frame as $p)
+                    {
+                        if ($p->nr == $n->nr)
+                        {
+                            $p->setRef($p->ref+1);
+                            $if_breaker = 1;
+                            break;
+                        }
+                    }
+
+                    if($if_breaker==0)
+                    {
+                        $PF++;
+                        array_push($this->Frame, $n);
+                    }
+                }
+                else
+                {
+                    foreach($this->Frame as $p)
+                    {
+                        if ($p->nr == $n->nr)
+                        {
+                            $p->setRef($p->ref+1);
+                            $if_breaker = 1;
+                            break;
+                        }
+                    }
+                    //sorting by refs
+                    if($if_breaker==0)
+                    {
+                        usort($this->Frame, function ($a,$b){return $a->ref - $b->ref;});
+                        array_splice($this->Frame, 0,1);
+                        array_push($this->Frame, $n);
+                        $PF++;
+                    }
+                }
+            }
+        $this->Frame = array();
+        return  $PF;
+    }
+
+    function OPT(): int
+    {
         return 0;
     }
 
-    function LRU(){
-        return 0;
-    }
-
-    function OPT(){
-        return 0;
-    }
-
-    function LRU_APX(){
+    function LRU_APX(): int
+    {
         return 0;
     }
 

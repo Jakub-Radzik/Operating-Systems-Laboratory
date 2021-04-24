@@ -7,9 +7,11 @@ class Result
     {
         //Creating page references
         $PageReferences = [];
+        $refs = [1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5];//TESTING VALUES
         for($a = 0; $a< $PageReferencesCount; $a++)
         {
-            $r = intval(rand(1,$interval));
+//            $r = intval(rand(1,$interval));
+            $r = $refs[$a];
             $newPage = new Page($r, true, 0);
             array_push($PageReferences, $newPage);
         }

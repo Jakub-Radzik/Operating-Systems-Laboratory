@@ -69,12 +69,5 @@ class Page
 
 }
 
-function compareRefs($page1, $page2){
-    if($page1->ref > $page2->ref){
-        return 1;
-    }elseif ($page1->ref < $page2->ref){
-        return -1;
-    }
-    return 0;
-}
+
 
