@@ -21,8 +21,8 @@
 **Implemented algorithms:**
 `FIFO`
 `RANDOM`
-`OPT` -- not yet
+`OPT`
 `LRU`
-`APX-LRU` -- not yet
+`APX-LRU`
 # **ZADANIE 4**
 # **ZADANIE 5**
