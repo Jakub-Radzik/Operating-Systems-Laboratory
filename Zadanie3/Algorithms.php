@@ -4,11 +4,8 @@ require_once(__DIR__ . '/Page.php');
 class Algorithms
 {
     public $FRAME_SIZE;
-    public $PagesNr;
-
     public $PageReferences = [];
     public $Frame = [];
-    public $PF = 0;
 
     function __construct($FRAME_SIZE, $PageReferences)
     {
@@ -229,8 +226,7 @@ class Algorithms
                     array_push($this->Frame, $n);
                 }
 
-            }
-            else {
+            } else {
                 foreach ($this->Frame as $p) {
                     if ($p->nr == $n->nr) {
                         $p->setParityBit(true);

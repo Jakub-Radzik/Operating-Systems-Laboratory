@@ -7,7 +7,8 @@ class Page
     public $ref; //int
 
     //casual constructor
-    function __construct($nr, $parityBit, $ref) {
+    function __construct($nr, $parityBit, $ref)
+    {
         $this->nr = $nr;
         $this->parityBit = $parityBit;
         $this->ref = $ref;
@@ -63,7 +64,7 @@ class Page
 
     public function __toString()
     {
-        return $this->nr." ";
+        return $this->nr . " ";
     }
 
 
