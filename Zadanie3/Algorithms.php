@@ -5,7 +5,7 @@ class Algorithms
 {
     public $FRAME_SIZE;
     public $PageReferences = [];
-    public $Frame = [];
+    public $Frames = [];
 
     function __construct($FRAME_SIZE, $PageReferences)
     {
@@ -20,7 +20,7 @@ class Algorithms
 
         //copying array of pages references
         foreach ($this->PageReferences as $page) {
-            array_push($Pages1, new Page($page->nr, $page->parityBit, $page->ref));
+            array_push($Pages1, new Page($page->nr, $page->secondChanceBit, $page->ref));
         }
 
         //as lon as we have references
@@ -29,29 +29,33 @@ class Algorithms
             $if_breaker = 0;
 
 
-            foreach ($this->Frame as $page) {
+            foreach ($this->Frames as $page) {
                 if ($page->nr == $n_page->nr) {
                     $if_breaker = 1;
                     break;
                 }
             }
 
-            if (count($this->Frame) < $this->FRAME_SIZE) {
+            //FIFO OPERATIONS
+
+            //IF WE HAVE TO PUSH ELEM TO NON FULL QUEUE
+            if (count($this->Frames) < $this->FRAME_SIZE) {
                 if ($if_breaker == 0) {
-                    array_push($this->Frame, $n_page);
+                    array_push($this->Frames, $n_page);
                     $PF++;
                 }
             } else {
+                //ELSE IF WE HAVE FULL QUEUE, DELETE FIRST PUSH LAST
                 if ($if_breaker == 0) {
-                    array_splice($this->Frame, 0, 1);
-                    array_push($this->Frame, $n_page);
+                    array_splice($this->Frames, 0, 1);
+                    array_push($this->Frames, $n_page);
                     $PF++;
                 }
             }
 
         }
 
-        $this->Frame = array();
+        $this->Frames = array();
         return $PF;
     }
 
@@ -59,43 +63,42 @@ class Algorithms
     {
         $PF = 0;
         $Pages2 = [];
+        //copying array of pages references
         foreach ($this->PageReferences as $page) {
-            array_push($Pages2, new Page($page->nr, $page->parityBit, $page->ref));
+            array_push($Pages2, new Page($page->nr, $page->secondChanceBit, $page->ref));
         }
 
         $n = 0;
+        //For each reference to page
         for ($i = 0; $i < count($Pages2); $i++) {
             $n = $Pages2[$i];
             $if_breaker = 0;
 
-            if (count($this->Frame) < $this->FRAME_SIZE) {
-                foreach ($this->Frame as $p) {
-                    if ($p->nr == $n->nr) {
-                        $if_breaker = 1;
-                        break;
-                    }
+            //looking for our page in frames
+            foreach ($this->Frames as $p) {
+                if ($p->nr == $n->nr) { //if page is in frames
+                    $if_breaker = 1;    //we can skip iteration
+                    break;
                 }
+            }
+
+            if (count($this->Frames) < $this->FRAME_SIZE) {
+                //IF QUEUE IS NOT FULL -> JUST PUSH
                 if ($if_breaker == 0) {
                     $PF++;
-                    array_push($this->Frame, $n);
+                    array_push($this->Frames, $n);
                 }
-
             } else {
-                foreach ($this->Frame as $p) {
-                    if ($p->nr == $n->nr) {
-                        $if_breaker = 1;
-                        break;
-                    }
-                }
+                //ELSE RANDOMIZE PLACE TO PUSH
                 if ($if_breaker == 0) {
                     $r = rand(0, $this->FRAME_SIZE - 1);
-                    $this->Frame[$r] = $n;
+                    $this->Frames[$r] = $n;
                     $PF++;
                 }
             }
         }
 
-        $this->Frame = array();
+        $this->Frames = array();
         return $PF;
     }
 
@@ -104,18 +107,21 @@ class Algorithms
         $PF = 0;
         $Pages3 = [];
 
+        //copying array of pages references
         foreach ($this->PageReferences as $page) {
-            array_push($Pages3, new Page($page->nr, $page->parityBit, $page->ref));
+            array_push($Pages3, new Page($page->nr, $page->secondChanceBit, $page->ref));
         }
 
+        //For each reference to page
         for ($i = 0; $i < count($Pages3); $i++) {
             $n = $Pages3[$i];
             $if_breaker = 0;
 
-            if (count($this->Frame) < $this->FRAME_SIZE) {
-                foreach ($this->Frame as $p) {
+            //if there is empty frames
+            if (count($this->Frames) < $this->FRAME_SIZE) {
+                foreach ($this->Frames as $p) {
                     if ($p->nr == $n->nr) {
-                        $p->setRef($p->ref + 1);
+                        $p->setRef($p->ref + 1);    //if we need page we set page ref = ref + 1
                         $if_breaker = 1;
                         break;
                     }
@@ -123,28 +129,30 @@ class Algorithms
 
                 if ($if_breaker == 0) {
                     $PF++;
-                    array_push($this->Frame, $n);
+                    array_push($this->Frames, $n);
                 }
             } else {
-                foreach ($this->Frame as $p) {
+                foreach ($this->Frames as $p) {
                     if ($p->nr == $n->nr) {
                         $p->setRef($p->ref + 1);
                         $if_breaker = 1;
                         break;
                     }
                 }
+
                 //sorting by refs
                 if ($if_breaker == 0) {
-                    usort($this->Frame, function ($a, $b) {
+                    usort($this->Frames, function ($a, $b) {
                         return $a->ref - $b->ref;
                     });
-                    array_splice($this->Frame, 0, 1);
-                    array_push($this->Frame, $n);
+                    //like in FIFO
+                    array_splice($this->Frames, 0, 1);
+                    array_push($this->Frames, $n);
                     $PF++;
                 }
             }
         }
-        $this->Frame = array();
+        $this->Frames = array();
         return $PF;
     }
 
@@ -153,15 +161,16 @@ class Algorithms
         $PF = 0;
         $Pages4 = [];
         foreach ($this->PageReferences as $page) {
-            array_push($Pages4, new Page($page->nr, $page->parityBit, $page->ref));
+            array_push($Pages4, new Page($page->nr, $page->secondChanceBit, $page->ref));
         }
 
         for ($i = 0; $i < count($Pages4); $i++) {
             $n = $Pages4[$i];
             $if_breaker = 0;
 
-            if (count($this->Frame) < $this->FRAME_SIZE) {
-                foreach ($this->Frame as $p) {
+            if (count($this->Frames) < $this->FRAME_SIZE) {
+                //non full frames, just push
+                foreach ($this->Frames as $p) {
                     if ($p->nr == $n->nr) {
                         $if_breaker = 1;
                         break;
@@ -170,10 +179,10 @@ class Algorithms
 
                 if ($if_breaker == 0) {
                     $PF++;
-                    array_push($this->Frame, $n);
+                    array_push($this->Frames, $n);
                 }
             } else {
-                foreach ($this->Frame as $p) {
+                foreach ($this->Frames as $p) {
                     if ($p->nr == $n->nr) {
                         $if_breaker = 1;
                         break;
@@ -181,20 +190,21 @@ class Algorithms
                 }
 
                 if ($if_breaker == 0) {
-                    $m = latest($n, $Pages4, $this->Frame);
+                    //find the page we dont use for a long time
+                    $m = latest($n, $Pages4, $this->Frames);
                     if ($m != null) {
-                        array_splice($this->Frame, array_search($m, $this->Frame), 1);
+                        array_splice($this->Frames, array_search($m, $this->Frames), 1);
                     } else {
-                        array_splice($this->Frame, 0, 1);
+                        array_splice($this->Frames, 0, 1);
                     }
 
-                    array_push($this->Frame, $n);
+                    array_push($this->Frames, $n);
                     $PF++;
                 }
             }
         }
 
-        $this->Frame = array();
+        $this->Frames = array();
         return $PF;
     }
 
@@ -203,7 +213,7 @@ class Algorithms
         $PF = 0;
         $Pages5 = [];
         foreach ($this->PageReferences as $page) {
-            array_push($Pages5, new Page($page->nr, $page->parityBit, $page->ref));
+            array_push($Pages5, new Page($page->nr, $page->secondChanceBit, $page->ref));
         }
 
 
@@ -211,10 +221,11 @@ class Algorithms
             $n = $Pages5[$i];
             $if_breaker = 0;
 
-            if (count($this->Frame) < $this->FRAME_SIZE) {
-                foreach ($this->Frame as $p) {
+            if (count($this->Frames) < $this->FRAME_SIZE) {
+                //NON full queue, put elem, set ref=ref+1 and parity
+                foreach ($this->Frames as $p) {
                     if ($p->nr == $n->nr) {
-                        $p->setParityBit(true);
+                        $p->setSecondChanceBit(true);
                         $p->setRef($p->ref + 1);
                         $if_breaker = 1;
                         break;
@@ -223,38 +234,44 @@ class Algorithms
 
                 if ($if_breaker == 0) {
                     $PF++;
-                    array_push($this->Frame, $n);
+                    array_push($this->Frames, $n);
                 }
 
-            } else {
-                foreach ($this->Frame as $p) {
+            } else { //full queue
+                //pages in frames
+                foreach ($this->Frames as $p) {
+                    //we found our page in frames
                     if ($p->nr == $n->nr) {
-                        $p->setParityBit(true);
+                        $p->setSecondChanceBit(true);
                         $p->setRef($p->ref + 1);
                         $if_breaker = 1;
                         break;
                     }
                 }
+                //lets start rollercoaster
+                //our page is not in frames
                 if ($if_breaker == 0) {
-
-                    usort($this->Frame, function ($a, $b) {
+                    //fifo - sort by refs
+                    usort($this->Frames, function ($a, $b) {
                         return $a->ref - $b->ref;
                     });
 
-                    $parity_breaker = 0;
+                    $second_chance_end = 0;
                     while (true) {
-                        foreach ($this->Frame as $p) {
-                            if ($p->parityBit == false) {
-                                array_splice($this->Frame, array_search($p, $this->Frame), 1);
-                                array_push($this->Frame, $n);
-                                $parity_breaker = 1;
+                        //around pages in frames
+                        foreach ($this->Frames as $p) {
+                            //check bit
+                            if ($p->secondChanceBit == false) {
+                                array_splice($this->Frames, array_search($p, $this->Frames), 1);
+                                array_push($this->Frames, $n);
+                                $second_chance_end = 1;
                                 break 2;
                             } else {
-                                $p->setParityBit(false);
+                                $p->setsecondChanceBit(false);
                             }
                         }
 
-                        if ($parity_breaker == 1) {
+                        if ($second_chance_end == 1) {
                             break;
                         }
                     }
@@ -262,27 +279,41 @@ class Algorithms
                 }
             }
         }
-        $this->Frame = array();
+        $this->Frames = array();
         return $PF;
     }
 
 }
 
-function latest($p, $a, $f)
+function latest($page, $pages, $framesWithPages)
 {
     $temp = [];
-    foreach ($f as $k) {
-        array_push($temp, new Page($k->nr, $k->parityBit, $k->ref));
+    //copy of frames filled by sites
+    foreach ($framesWithPages as $k) {
+        array_push($temp, new Page($k->nr, $k->secondChanceBit, $k->ref));
     }
-    for ($d = array_search($p, $a); $d < count($a); ++$d) {
+    //from index of page in pages (pages are numbers of pages we refer to)
+    //series of references, that's why OPT is impossible to implement in real life
+    //we do not know the future
+    for ($d = array_search($page, $pages); $d < count($pages); ++$d) {
+
+        //for every frame
         for ($j = 0; $j < count($temp); $j++) {
-            if ($temp[$j]->nr == $a[$d]->nr) {
+
+            //if number of site in frame is equal to number of page we refer to
+            if ($temp[$j]->nr == $pages[$d]->nr) {
+
+                //delete this frame
                 array_splice($temp, $j, 1);
             }
+            //if we have only one frame
             if (count($temp) == 1) {
-                for ($y = 0; $y < count($f); $y++) {
-                    if ($temp[0]->nr == $f[$y]->nr)
-                        return $f[$y];
+                //for every frame with pages
+                for ($y = 0; $y < count($framesWithPages); $y++) {
+
+                    //we found site that we do not use for a long time
+                    if ($temp[0]->nr == $framesWithPages[$y]->nr)
+                        return $framesWithPages[$y];
                 }
             }
         }

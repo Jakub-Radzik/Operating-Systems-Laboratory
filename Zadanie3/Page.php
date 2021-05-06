@@ -3,14 +3,14 @@
 class Page
 {
     public $nr; //int
-    public $parityBit; //bool
+    public $secondChanceBit; //bool
     public $ref; //int
 
     //casual constructor
-    function __construct($nr, $parityBit, $ref)
+    function __construct($nr, $secondChanceBit, $ref)
     {
         $this->nr = $nr;
-        $this->parityBit = $parityBit;
+        $this->secondChanceBit = $secondChanceBit;
         $this->ref = $ref;
     }
 
@@ -33,17 +33,17 @@ class Page
     /**
      * @return mixed
      */
-    public function getParityBit()
+    public function getSecondChanceBit()
     {
-        return $this->parityBit;
+        return $this->secondChanceBit;
     }
 
     /**
-     * @param mixed $parityBit
+     * @param mixed $secondChanceBit
      */
-    public function setParityBit($parityBit)
+    public function setSecondChanceBit($secondChanceBit)
     {
-        $this->parityBit = $parityBit;
+        $this->secondChanceBit = $secondChanceBit;
     }
 
     /**

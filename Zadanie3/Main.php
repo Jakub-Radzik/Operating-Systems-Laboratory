@@ -11,9 +11,10 @@ require_once(__DIR__ . '/Algorithms.php');
  * @author Jakub Radzik
  */
 
-$frames = [5, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5];
-$PageReferencesCount = 12;
-$Interval = 5;
+//$frames = [5, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5];
+$frames = [100,110,120,130,140,150,160];
+$PageReferencesCount = 5000;
+$Interval = 200;
 
 
 //Creating page references
