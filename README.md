@@ -1,14 +1,16 @@
 # Wroclaw University of Science and Technology
 ## *Operating Systems Laboratory*
 
-# **1.**
-###### CPU access algorithms `Java`
+# **1. CPU access algorithms**
+<img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/java.png" alt="java" width="40"/>
+
 **Implemented algorithms:**
 `FCFS`
 `RR`
 `SJF`
-# **2.**
-###### Simulation of disk access planning algorithms `JavaScript`
+# **2. Simulation of disk access planning algorithms**
+<img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/js.png" alt="JS" width="40"/>
+
 **Implemented algorithms:**
 `FCFS`
 `SSTF`
@@ -16,8 +18,9 @@
 `C-SCAN`
 `EDF`
 `FD-SCAN`
-# **3.**
-###### Testing page replacement algorithms `PHP`
+# **3. Testing page replacement algorithms**
+<img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/php.png" alt="PHP" width="40"/>
+
 **Implemented algorithms:**
 `FIFO`
 `RANDOM`
