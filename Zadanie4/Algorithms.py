@@ -3,6 +3,14 @@ import copy
 from Page import Page
 from Proces import Proces
 
+def numberOfDuplications(a, zone):
+    h = set()
+    if zone > len(a):
+        zone = len(a)
+    for i in range(zone):
+        h.add(a[i].nr)
+    return len(h)
+
 
 class Algorithms:
 
@@ -78,7 +86,8 @@ class Algorithms:
         # starting page size
         frame_size = self.FRAME_SIZE / len(self.ProcessesTab)
         # copying page references
-        ProcessesTabCopy = self.ProcessesTab.copy()
+        # ProcessesTabCopy = self.ProcessesTab.copy()
+        ProcessesTabCopy = copy.deepcopy(self.ProcessesTab)
         for i in ProcessesTabCopy:
             i.FRAME_SIZE = frame_size
 
@@ -144,11 +153,11 @@ class Algorithms:
 
         # copying page references
         ProcessesTabCopy = copy.deepcopy(self.ProcessesTab)
-
         for i in ProcessesTabCopy:
-            frame_size = int(self.numberOfDuplications(i.proces, zone))
+            frame_size = numberOfDuplications(i.proces, zone)
             # setting frame size to proces
             i.FRAME_SIZE = frame_size
+
         #DO WHILE :(
         if allDone != self.ProcessesCount - 1:
             for k in range(allDone + 1, len(self.ProcessesTab)):
@@ -218,14 +227,3 @@ class Algorithms:
 
         self.Frame = []
         return PF
-
-    def numberOfDuplications(self, pages, zone):
-        h = set()
-
-        if zone > len(pages):
-            zone = len(pages)
-
-        for i in range(zone):
-            h.add(pages[i].nr)
-
-        return len(h)
