@@ -1,5 +1,5 @@
 class Page:
-    def __init__(self, nr, proces, refCount):
+    def __init__(self, nr, refCount, proces):
         self.nr = nr
         self.proces = proces
         self.refCount = refCount
@@ -7,4 +7,3 @@ class Page:
     def __str__(self):
         return "[Nr:" + str(self.nr) + " | proces: " + str(self.proces) + " | ref: " + str(self.refCount) + " ]"
 
-    # TODO: comparator
