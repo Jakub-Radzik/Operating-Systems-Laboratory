@@ -3,6 +3,7 @@ import copy
 from Page import Page
 from Proces import Proces
 
+
 def numberOfDuplications(a, zone):
     h = set()
     if zone > len(a):
@@ -13,11 +14,10 @@ def numberOfDuplications(a, zone):
 
 
 class Algorithms:
-
-    def __init__(self, FRAME_SIZE, PagesNr, interval, ProcessesCount):
-        self.FRAME_SIZE = FRAME_SIZE
-        self.PagesNr = PagesNr
-        self.ProcessesCount = ProcessesCount
+    def __init__(self, Frame_size, Number_of_pages_references, interval, Processes_count):
+        self.Frame_size = Frame_size
+        self.Number_of_pages_references = Number_of_pages_references
+        self.Processes_count = Processes_count
         self.interval = interval
         self.ProcessesTab = []  # length == Processes
         self.Pages = []
@@ -26,50 +26,55 @@ class Algorithms:
         self.PF = 0
 
         # randomizing
-        for a in range(self.PagesNr):
-            randCount = random.randint(0, ProcessesCount)
+        for a in range(self.Number_of_pages_references):
+            randCount = random.randint(0, Processes_count)
             randInterval = random.randint(0, interval)
-            # randCount = (int)(Math.random() * self.ProcessesCount)
-            # randInterval = (int)(Math.random() * self.interval)
-            if (randCount == 3 or randCount == 5) and randCount % 3 != 0:
-                randCount = 8
+            # TODO what?
+            # if (randCount == 3 or randCount == 5) and randCount % 3 != 0:
+            #     randCount = 8
 
-            # creating page references
+            # creating page references queue
             self.PageReferences.append(Page(randInterval, 0, randCount))
 
         # creating table of processes
-        for w in range(ProcessesCount):
+        for i in range(Processes_count):
+            # append proces with empty pages list
             self.ProcessesTab.append(Proces([], 0))
-            for s in range(len(self.PageReferences)):
-                if (self.PageReferences[s]).proces == w:
-                    a = self.ProcessesTab[w]
-                    a.proces.append(self.PageReferences[s])
 
-    def EQUAL(self):
+            # processing page references
+            # if process_number in page is current process we assign to page's number a process
+            # process <--> page
+            for j in self.PageReferences:
+                if j.process_number == i:
+                    a = self.ProcessesTab[i]
+                    a.proces.append(j)
+
+    def equal(self):
         # copying references
-        ProcessesTabCopy = []
-        PF_SUM = 0
-        # frame size as a whole frames divided by processes length
-        frame_size = int(self.FRAME_SIZE / len(self.ProcessesTab))
-        # adds all page faults
         ProcessesTabCopy = copy.deepcopy(self.ProcessesTab)
 
-        for k in range(len(self.ProcessesTab)):
-            # ProcessesTabCopy.append(Proces(self.ProcessesTab[k].proces, self.ProcessesTab[k].PFrame))
+        PF_SUM = 0
+        # frame size as a whole frames divided by processes length
+        # f_i = ( F / N )
+        # frame_size is number of frames assign to process_i
+        frame_size = int(self.Frame_size / len(self.ProcessesTab))
 
+        #for every process
+        for k in range(len(self.ProcessesTab)):
             p = self.LRU(ProcessesTabCopy[k].proces, frame_size)
             PF_SUM += p
         return PF_SUM
 
-    def PROPORTIONAL(self):
+    def proportional(self):
+
         # frame size as a whole frames divided by processes length
-        frame_size = int(self.FRAME_SIZE / len(self.ProcessesTab))
+        frame_size = int(self.Frame_size / len(self.ProcessesTab))
         ProcessesTabCopy = copy.deepcopy(self.ProcessesTab)
         PF_SUM = 0
 
         for j in range(len(ProcessesTabCopy)):
             # frame size: depends on process size
-            frame_size = int(len(ProcessesTabCopy[j].proces) * self.FRAME_SIZE / self.PagesNr)
+            frame_size = int(len(ProcessesTabCopy[j].proces) * self.Frame_size / self.Number_of_pages_references)
 
             # minimal frame size
             if frame_size == 0:
@@ -79,12 +84,12 @@ class Algorithms:
             PF_SUM += p
         return PF_SUM
 
-    def ALG_3(self):
+    def steering_fault_frequency(self):
         # max page faults for starting working algorithm
-        PFMax = int(0.6) * self.PagesNr
+        PFMax = int(0.6) * self.Number_of_pages_references
 
         # starting page size
-        frame_size = self.FRAME_SIZE / len(self.ProcessesTab)
+        frame_size = self.Frame_size / len(self.ProcessesTab)
         # copying page references
         # ProcessesTabCopy = self.ProcessesTab.copy()
         ProcessesTabCopy = copy.deepcopy(self.ProcessesTab)
@@ -93,7 +98,7 @@ class Algorithms:
 
         freeFrames = 0
         allDone = False
-        size = self.ProcessesCount
+        size = self.Processes_count
         PFGlobal = 0
 
         while size != 0:
@@ -145,10 +150,10 @@ class Algorithms:
 
         return PFGlobal
 
-    def ALG_4(self, zone):
+    def zone(self, zone):
 
         PFGlobal = 0
-        freeFrames = self.FRAME_SIZE
+        freeFrames = self.Frame_size
         allDone = -1
 
         # copying page references
@@ -158,8 +163,8 @@ class Algorithms:
             # setting frame size to proces
             i.FRAME_SIZE = frame_size
 
-        #DO WHILE :(
-        if allDone != self.ProcessesCount - 1:
+        # DO WHILE :(
+        if allDone != self.Processes_count - 1:
             for k in range(allDone + 1, len(self.ProcessesTab)):
                 # if there are free frames
                 if freeFrames > ProcessesTabCopy[k].FRAME_SIZE:
@@ -170,10 +175,10 @@ class Algorithms:
                     if ProcessesTabCopy[k].FRAME_SIZE != 0:
                         h = int(self.LRU(ProcessesTabCopy[k].proces, ProcessesTabCopy[k].FRAME_SIZE))
                         PFGlobal += h
-            freeFrames = self.FRAME_SIZE
+            freeFrames = self.Frame_size
             # waiting processes
 
-        while (allDone != self.ProcessesCount - 1):
+        while (allDone != self.Processes_count - 1):
             for k in range(allDone + 1, len(self.ProcessesTab)):
                 # if there are free frames
                 if freeFrames > ProcessesTabCopy[k].FRAME_SIZE:
@@ -184,7 +189,7 @@ class Algorithms:
                     if ProcessesTabCopy[k].FRAME_SIZE != 0:
                         h = int(self.LRU(ProcessesTabCopy[k].proces, ProcessesTabCopy[k].FRAME_SIZE))
                         PFGlobal += h
-            freeFrames = self.FRAME_SIZE
+            freeFrames = self.Frame_size
 
         return PFGlobal
 

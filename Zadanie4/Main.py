@@ -1,17 +1,28 @@
 from Algorithms import Algorithms
-from Page import Page
-from Proces import Proces
 
-a = Algorithms(1000, 10000, 250, 1000)
-print("Assumption of simulation: \nIn system has to be two more free frames than processes," +
-      "(minimal free frames == 3,\n Page References:10000, Frames:100, Processes:10" +
-      "\nsteering page faults: max page faults: 60% references\n ")
-print("Equal: " + str(a.EQUAL()))
-print("******************************************************************************************")
-print("Proportional: " + str(a.PROPORTIONAL()))
-print("******************************************************************************************")
-print("Steering PF: " + str(a.ALG_3()))
-print("******************************************************************************************")
-print("Zone Model: " + str(a.ALG_4(30)))
+#
+Frame_size = 1000
+Number_of_pages_references = 10000
+Interval = 250
+Number_of_processes = 1000
+
+
+a = Algorithms(Frame_size, Number_of_pages_references, Interval, Number_of_processes)
+print("==========================================================================================")
+print("Settings:")
+print("Page references: ", Number_of_pages_references)
+print("Frames: ", Frame_size)
+print("Processes: ", Number_of_processes)
+print("Free frames = 2 * number of processes ")
+print("Minimal free frames = 3")
+print("Steering page faults: max page faults: 60% references")
+print("==========================================================================================")
+print("Equal: " + str(a.equal()))
+print("==========================================================================================")
+print("Proportional: " + str(a.proportional()))
+print("==========================================================================================")
+print("Steering Page Fault Frequency: " + str(a.steering_fault_frequency()))
+print("==========================================================================================")
+print("Zone Model Algorithm: " + str(a.zone(30)))
 
 
