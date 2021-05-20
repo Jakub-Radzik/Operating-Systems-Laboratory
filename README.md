@@ -27,8 +27,8 @@
 `OPT`
 `LRU`
 `APX-LRU`
-# **4. Frame allocation algorithms**
-<img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/python.png" alt="python" width="40"/>
-
-# **5. UNKNOWN**
-Implementation language unknown
+<!-- # **4. Frame allocation algorithms** -->
+<!-- <img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/python.png" alt="python" width="40"/> -->
+<!--  -->
+<!-- # **5. UNKNOWN** -->
+<!-- Implementation language unknown -->
