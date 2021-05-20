@@ -36,7 +36,7 @@ public class ZoneModel extends FramesAllocationAlgorithm {
             }
 
             // c is over 2* frames for process
-            if (c >= 2 * frames_per_process) {
+            if (c >=  frames_per_process / 2) {
                 for (int i = 0; i < processes.length; ++i) {
                     if (processes[i].isDone()) {
                         available_counter += processes[i].getFrames_count();//if process is done we relase frames
