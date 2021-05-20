@@ -27,7 +27,14 @@
 `OPT`
 `LRU`
 `APX-LRU`
-<!-- # **4. Frame allocation algorithms** -->
+# **4. Frame allocation algorithms**
+<img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/java.png" alt="java" width="40"/>
+
+**Implemented algorithms:**
+`EQUAL`
+`PROPORTIONAL`
+`STREEFING`
+`ZONE`
 <!-- <img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/python.png" alt="python" width="40"/> -->
 <!--  -->
 <!-- # **5. UNKNOWN** -->
