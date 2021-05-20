@@ -48,13 +48,10 @@ public class LRU {
         Frames_count--;
     }
 
-    public boolean doAll() {
-        boolean result = false;
+    public void doAll() {
         while (done_counter < Page_referencess_array.length) {
-            result = runOne();
+            runOne();
         }
-        ;
-        return result;
     }
 
     public boolean runOne() {

@@ -28,7 +28,8 @@ public class Generator {
             int[] referencesArray = new int[howManyReferences];
 
             //we have to randomize references for first elem in array (it is because we have i-1 in loop)
-            referencesArray[0] = Tools.randomize(0, pages_count);
+            referencesArray[0] = Tools.randomize(pages_count/processes_count*j, pages_count/processes_count*(j+1));
+//            referencesArray[0] = Tools.randomize(0, pages_count);
 
             //RULE OF LOCALITY ======== references of process are in specified range
             // position +- radius but we cant have ArrayIndexOfOutBoundException
