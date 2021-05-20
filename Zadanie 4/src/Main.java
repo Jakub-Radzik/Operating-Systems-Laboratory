@@ -1,6 +1,5 @@
 import Algorithms.*;
-
-import java.util.Arrays;
+import Algorithms.Strategy.*;
 
 public class Main {
 
@@ -32,7 +31,7 @@ public class Main {
 
         System.out.println("Result for every process:============================================");
         for (int i = 0; i < processes.length; ++i) {
-            System.out.println("\n Result for process number " + i + ":");
+            System.out.println("\n[PROCESS NUMBER: " + i + "]");
             for (FramesAllocationAlgorithm algo : algorithms) {
                 System.out.println(algo.getClass().getSimpleName() + " - " + algo.getResultForProcess(i));
             }

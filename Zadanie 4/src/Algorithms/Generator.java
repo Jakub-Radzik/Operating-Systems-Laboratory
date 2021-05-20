@@ -1,7 +1,5 @@
 package Algorithms;
 
-import java.util.Random;
-
 public class Generator {
     private final int processes_count;
     private final int pages_count;

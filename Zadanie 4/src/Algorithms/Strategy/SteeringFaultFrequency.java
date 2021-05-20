@@ -1,4 +1,4 @@
-package Algorithms;
+package Algorithms.Strategy;
 
 
 public class SteeringFaultFrequency extends FramesAllocationAlgorithm {
@@ -28,7 +28,7 @@ public class SteeringFaultFrequency extends FramesAllocationAlgorithm {
             isAllDone = true;
 
             for (int i = 0; i < processes.length; i++) {
-                if (!processes[i].runOne()) { //if LRU failed
+                if (!processes[i].runOnce()) { //if LRU failed
                     isAllDone = false;
                 }
             }

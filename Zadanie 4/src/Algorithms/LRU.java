@@ -50,11 +50,11 @@ public class LRU {
 
     public void doAll() {
         while (done_counter < Page_referencess_array.length) {
-            runOne();
+            runOnce();
         }
     }
 
-    public boolean runOne() {
+    public boolean runOnce() {
         while (frame_list.size() > Frames_count) frame_list.removeFirst();
         if (done_counter < Page_referencess_array.length) {
             if (Frames_count == 0) return false;

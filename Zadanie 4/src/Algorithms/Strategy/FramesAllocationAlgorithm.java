@@ -1,4 +1,6 @@
-package Algorithms;
+package Algorithms.Strategy;
+
+import Algorithms.LRU;
 
 public abstract class FramesAllocationAlgorithm {
     protected LRU[] processes;

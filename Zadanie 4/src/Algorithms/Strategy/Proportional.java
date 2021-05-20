@@ -1,4 +1,4 @@
-package Algorithms;
+package Algorithms.Strategy;
 
 public class Proportional extends FramesAllocationAlgorithm {
 
