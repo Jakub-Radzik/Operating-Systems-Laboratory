@@ -3,13 +3,18 @@ import Algorithms.Strategy.*;
 
 public class Main {
 
+    //DEFAULT process_count = 10; pages = 10000; min= 30; max =300; radius = 10; frames = 100
     //SETTINGS FOR SIMULATION =============================================================
     public static final int Processes_Count = 10;
     public static final int Pages_Count = 10000;
-    public static final int Minimum_number_of_references = 30;
-    public static final int Maximum_number_of_references = 300;
+    public static final int Minimum_number_of_references = 30; //no effects
+    public static final int Maximum_number_of_references = 300; // we can observe more differences between results
     public static final int radius_of_locality = 10;
+
+    //manipulation of the number of frames affects result
+    // more frames = proportional win
     public static final int frames_count = 100;
+
     //======================================================================================
 
     public static void main(String[] args) {

@@ -38,8 +38,10 @@ public class ZoneModel extends FramesAllocationAlgorithm {
             // c is over 2* frames for process
             // frequency of WSS count
 
+
 //            boolean condition = c >=  2 * frames_per_process;
             boolean condition = c >=  2 / frames_per_process;
+//            boolean condition = c >=  frames_per_process;
 
             if (condition) {
                 for (int i = 0; i < processes.length; ++i) {
