@@ -30,29 +30,35 @@ public class ZoneModel extends FramesAllocationAlgorithm {
             isAllDone = true;
             for (int i = 0; i < processes.length; i++) {
                 if (!processes[i].runOnce()) { //run LRU, and if is done
-                    WorkingSet[i].add(processes[i].getLastUsed());
+                    WorkingSet[i].add(processes[i].getLastUsed()); //last frame I used
                     isAllDone = false;
                 }
             }
 
             // c is over 2* frames for process
-            if (c >=  frames_per_process / 2) {
+            // frequency of WSS count
+
+//            boolean condition = c >=  2 * frames_per_process;
+            boolean condition = c >=  2 / frames_per_process;
+
+            if (condition) {
                 for (int i = 0; i < processes.length; ++i) {
                     if (processes[i].isDone()) {
                         available_counter += processes[i].getFrames_count();//if process is done we relase frames
                         processes[i].setFrames_count(0); //no frames for process
                     }
-                    //for every process
+                    // for every process
+                    /*
+                     * Dopóki D jest mniejsze niż liczba dostępnych w systemie ramek każdy
+                     * z procesów otrzymuje do wykorzystania  tyle  ramek, ile  wynosi  jego WSS.
+                     * */
                     for (int j = WorkingSet[i].size() - processes[i].getFrames_count(); j > 0 && processes[i].getFrames_count() > 1; j--) {
                         available_counter++;
                         processes[i].removeFrame();
                     }
                 }
 
-                /*
-                 * Dopóki D jest mniejsze niż liczba dostępnych w systemie ramek każdy
-                 * z procesów otrzymuje do wykorzystania  tyle  ramek, ile  wynosi  jego WSS.
-                 * */
+
                 while (available_counter > 0 && c > 0) {
                     for (int i = 0; i < processes.length && available_counter > 0; i++) {
 
