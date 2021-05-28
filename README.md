@@ -39,5 +39,6 @@
 <!--  -->
 # **5. Simulation of a distributed algorithm that balances the processor load**
 <img src="https://github.com/radzikoska123/radzikoska123/blob/main/icons/java.png" alt="java" width="40"/>
+
 **Implemented algorithms:**
 `Three strategies without names`
